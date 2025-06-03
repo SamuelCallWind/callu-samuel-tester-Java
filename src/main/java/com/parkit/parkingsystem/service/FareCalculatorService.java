@@ -12,7 +12,7 @@ public class FareCalculatorService {
 
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
-        double duration = checkForDiscount(ticket);
+        double duration = checkDuration(ticket);
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
@@ -27,17 +27,20 @@ public class FareCalculatorService {
         }
     }
 
-    public double checkForDiscount(Ticket ticket) {
-        long inHour = (ticket.getInTime().getTime() / 60 / 1000) ;
-        long outHour = (ticket.getOutTime().getTime() / 60 / 1000);
+    public double checkDuration(Ticket ticket) {
+        int inMinutes = (int) (ticket.getInTime().getTime() / 60 / 1000);
+        int outMinutes = (int) (ticket.getOutTime().getTime() / 60 / 1000);
+        short oneHour = 60;
+        short halfHour = 30;
 
-        if (outHour - 60 < inHour) {
-            return 0.75;
-        }
-        if (inHour + 30 > outHour) {
+        if (inMinutes + halfHour > outMinutes) {
             return 0;
+        }
+        if (outMinutes - oneHour < inMinutes) {
+            return 0.75;
         } else {
-            return ticket.getOutTime().getHours() - ticket.getInTime().getHours();
+            int totalHours = (outMinutes / oneHour) - (inMinutes / oneHour);
+            return totalHours;
         }
     }
 }
