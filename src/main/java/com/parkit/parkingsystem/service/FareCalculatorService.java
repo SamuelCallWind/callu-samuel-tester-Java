@@ -33,7 +33,7 @@ public class FareCalculatorService {
         short oneHour = 60;
         short halfHour = 30;
 
-        if (inMinutes + halfHour > outMinutes) {
+        if (inMinutes + halfHour >= outMinutes) {
             return 0;
         }
         if (outMinutes - oneHour < inMinutes) {
