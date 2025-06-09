@@ -86,4 +86,9 @@ public class TicketDAO {
         }
         return false;
     }
+
+    public int getNbTicket(Ticket ticket) {
+        return ticket.getTotalTimesParked();
+    }
+
 }
