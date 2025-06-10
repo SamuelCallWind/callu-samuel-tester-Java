@@ -26,7 +26,6 @@ public class FareCalculatorService {
             default: throw new IllegalArgumentException("Unkown Parking Type");
         }
         if (discount) {
-            System.out.println("Heureux de vous revoir !");
             ticket.setPrice(ticket.getPrice() * 95 / 100);
         }
     }

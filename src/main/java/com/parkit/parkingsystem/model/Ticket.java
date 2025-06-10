@@ -68,4 +68,5 @@ public class Ticket {
     public void setTotalTimesParked(int totalTimesParked) {
         this.totalTimesParked = totalTimesParked;
     }
+
 }
