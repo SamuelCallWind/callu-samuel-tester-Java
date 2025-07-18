@@ -20,14 +20,21 @@ public class ParkingService {
     private InputReaderUtil inputReaderUtil;
     private ParkingSpotDAO parkingSpotDAO;
     private  TicketDAO ticketDAO;
+    private int testVehicle = 0;
 
     public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO){
         this.inputReaderUtil = inputReaderUtil;
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
+    public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO, int testVehicle){
+        this.inputReaderUtil = inputReaderUtil;
+        this.parkingSpotDAO = parkingSpotDAO;
+        this.ticketDAO = ticketDAO;
+        this.testVehicle = testVehicle;
+    }
 
-    public void processIncomingVehicle() {
+    public int processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
@@ -51,8 +58,10 @@ public class ParkingService {
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
             }
+            return 0;
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
+            return -1;
         }
     }
 
@@ -84,7 +93,12 @@ public class ParkingService {
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
         System.out.println("2 BIKE");
-        int input = inputReaderUtil.readSelection();
+        int input;
+        if (testVehicle != 0) {
+            input = testVehicle;
+        } else {
+             input = inputReaderUtil.readSelection();
+        }
         switch(input){
             case 1: {
                 return ParkingType.CAR;

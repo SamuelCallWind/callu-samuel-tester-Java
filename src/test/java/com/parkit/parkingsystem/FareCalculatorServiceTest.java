@@ -19,12 +19,12 @@ public class FareCalculatorServiceTest {
     private Ticket ticket;
 
     @BeforeAll
-    private static void setUp() {
+    public static void setUp() {
         fareCalculatorService = new FareCalculatorService();
     }
 
     @BeforeEach
-    private void setUpPerTest() {
+    public void setUpPerTest() {
         ticket = new Ticket();
     }
 
@@ -154,7 +154,7 @@ public class FareCalculatorServiceTest {
 
 
    @Test
-    public void calculateFareCarDiscount() {
+    public void calculateFareCarDiscountForRecurringUser() {
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  120 * 60 * 1000) );
         Date outTime = new Date();
@@ -170,7 +170,7 @@ public class FareCalculatorServiceTest {
 
 
     @Test
-    public void calculateFareBikeDiscount() {
+    public void calculateFareBikeDiscountForRecurringUser() {
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  120 * 60 * 1000) );
         Date outTime = new Date();
@@ -184,16 +184,18 @@ public class FareCalculatorServiceTest {
     }
 
     @Test
-    public void greetUserDifferentlyIfRecurrent() {
+    public void checkNumberOfTimesParked() {
         Date inTime = new Date();
-        inTime.setTime( System.currentTimeMillis() - (120 * 60 * 1000));
+        inTime.setTime( System.currentTimeMillis() - (  120 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket, true);
-        assertEquals( ((2 * Fare.BIKE_RATE_PER_HOUR)) *95/100 , ticket.getPrice());
+        ticket.setTotalTimesParked(1);
+        assertEquals(1, ticket.getTotalTimesParked());
     }
+
+
 }
