@@ -21,8 +21,7 @@ import org.mockito.quality.Strictness;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -101,6 +100,24 @@ public class ParkingServiceTest {
 
     @Test
     public void testGetNextParkingNumberIfAvailable() {
-        when(ticketDAO.updateTicket(any())).thenReturn(true);
+        ParkingService parkingServiceSpy = Mockito.spy(new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO));
+        doReturn(ParkingType.CAR).when(parkingServiceSpy).getVehicleType();
+        when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);
+
+        ParkingSpot spot = parkingServiceSpy.getNextParkingNumberIfAvailable();
+
+        assertNotNull(spot);
+        assertEquals(1, spot.getId());
+    }
+
+    @Test
+    public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() {
+        ParkingService parkingServiceSpy = Mockito.spy(new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO));
+        doReturn(ParkingType.CAR).when(parkingServiceSpy).getVehicleType();
+        when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(-1);
+
+        ParkingSpot spot = parkingServiceSpy.getNextParkingNumberIfAvailable();
+
+        assertNull(spot);
     }
 }
