@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.parkit.parkingsystem.integration.ParkingDataBaseIT
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.722 s <<< FAILURE! - in com.parkit.parkingsystem.integration.ParkingDataBaseIT
-testParkingACar  Time elapsed: 0.057 s  <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.719 s <<< FAILURE! - in com.parkit.parkingsystem.integration.ParkingDataBaseIT
+testParkingACar  Time elapsed: 0.064 s  <<< ERROR!
 org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
 
 Unnecessary stubbings detected.

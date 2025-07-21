@@ -74,22 +74,22 @@ public class ParkingService {
 <span class="fc" id="L74">        int parkingNumber=0;</span>
 <span class="fc" id="L75">        ParkingSpot parkingSpot = null;</span>
         try{
-<span class="fc" id="L77">            ParkingType parkingType = getVehichleType();</span>
+<span class="fc" id="L77">            ParkingType parkingType = getVehicleType();</span>
 <span class="fc" id="L78">            parkingNumber = parkingSpotDAO.getNextAvailableSlot(parkingType);</span>
-<span class="pc bpc" id="L79" title="1 of 2 branches missed.">            if(parkingNumber &gt; 0){</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">            if(parkingNumber &gt; 0 ){</span>
 <span class="fc" id="L80">                parkingSpot = new ParkingSpot(parkingNumber,parkingType, true);</span>
             }else{
-<span class="nc" id="L82">                throw new Exception(&quot;Error fetching parking number from DB. Parking slots might be full&quot;);</span>
+<span class="fc" id="L82">                throw new Exception(&quot;Error fetching parking number from DB. Parking slots might be full&quot;);</span>
             }
 <span class="nc" id="L84">        }catch(IllegalArgumentException ie){</span>
 <span class="nc" id="L85">            logger.error(&quot;Error parsing user input for type of vehicle&quot;, ie);</span>
-<span class="nc" id="L86">        }catch(Exception e){</span>
-<span class="nc" id="L87">            logger.error(&quot;Error fetching next available parking slot&quot;, e);</span>
+<span class="fc" id="L86">        }catch(Exception e){</span>
+<span class="fc" id="L87">            logger.error(&quot;Error fetching next available parking slot&quot;, e);</span>
 <span class="pc" id="L88">        }</span>
 <span class="fc" id="L89">        return parkingSpot;</span>
     }
 
-    private ParkingType getVehichleType(){
+    public ParkingType getVehicleType(){
 <span class="fc" id="L93">        System.out.println(&quot;Please select vehicle type from menu&quot;);</span>
 <span class="fc" id="L94">        System.out.println(&quot;1 CAR&quot;);</span>
 <span class="fc" id="L95">        System.out.println(&quot;2 BIKE&quot;);</span>
@@ -124,14 +124,14 @@ public class ParkingService {
             } else {
 <span class="fc" id="L125">                fareCalculatorService.calculateFare(ticket);</span>
             }
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">            if(ticketDAO.updateTicket(ticket)) {</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            if(ticketDAO.updateTicket(ticket)) {</span>
 <span class="fc" id="L128">                ParkingSpot parkingSpot = ticket.getParkingSpot();</span>
 <span class="fc" id="L129">                parkingSpot.setAvailable(true);</span>
 <span class="fc" id="L130">                parkingSpotDAO.updateParking(parkingSpot);</span>
 <span class="fc" id="L131">                System.out.println(&quot;Please pay the parking fare:&quot; + ticket.getPrice());</span>
 <span class="fc" id="L132">                System.out.println(&quot;Recorded out-time for vehicle number:&quot; + ticket.getVehicleRegNumber() + &quot; is:&quot; + outTime);</span>
 <span class="fc" id="L133">            }else{</span>
-<span class="nc" id="L134">                System.out.println(&quot;Unable to update ticket information. Error occurred&quot;);</span>
+<span class="fc" id="L134">                System.out.println(&quot;Unable to update ticket information. Error occurred&quot;);</span>
             }
 <span class="nc" id="L136">        }catch(Exception e){</span>
 <span class="nc" id="L137">            logger.error(&quot;Unable to process exiting vehicle&quot;,e);</span>

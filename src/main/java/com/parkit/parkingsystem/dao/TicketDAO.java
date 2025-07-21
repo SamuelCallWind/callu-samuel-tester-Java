@@ -19,6 +19,10 @@ public class TicketDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    public TicketDAO(DataBaseConfig dataBaseConfig) {
+        this.dataBaseConfig = dataBaseConfig;
+    }
+
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
         try {

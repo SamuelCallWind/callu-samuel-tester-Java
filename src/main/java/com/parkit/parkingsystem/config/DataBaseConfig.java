@@ -16,6 +16,8 @@ public class DataBaseConfig {
                 "jdbc:mysql://localhost:3306/prod","root","rootroot");
     }
 
+    // Notion de timezone à ajouter pour éviter un pb sur le lien vers la DB
+
     public void closeConnection(Connection con){
         if(con!=null){
             try {

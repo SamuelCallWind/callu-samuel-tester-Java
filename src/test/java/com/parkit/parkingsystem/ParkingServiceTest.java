@@ -1,6 +1,5 @@
 package com.parkit.parkingsystem;
 
-import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -8,17 +7,16 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
-import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.io.CharArrayReader;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -119,5 +117,14 @@ public class ParkingServiceTest {
         ParkingSpot spot = parkingServiceSpy.getNextParkingNumberIfAvailable();
 
         assertNull(spot);
+    }
+
+    @Test
+    public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument() {
+        ParkingService parkingServiceSpy = Mockito.spy(new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO));
+        doReturn(null).when(parkingServiceSpy).getVehicleType();
+        when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(-1);
+
+        assertEquals(-1,parkingSpotDAO.getNextAvailableSlot(parkingServiceSpy.getVehicleType()));
     }
 }

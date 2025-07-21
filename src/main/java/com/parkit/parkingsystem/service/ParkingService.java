@@ -76,7 +76,7 @@ public class ParkingService {
         try{
             ParkingType parkingType = getVehicleType();
             parkingNumber = parkingSpotDAO.getNextAvailableSlot(parkingType);
-            if(parkingNumber > 0){
+            if(parkingNumber > 0 ){
                 parkingSpot = new ParkingSpot(parkingNumber,parkingType, true);
             }else{
                 throw new Exception("Error fetching parking number from DB. Parking slots might be full");
