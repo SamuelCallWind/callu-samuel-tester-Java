@@ -88,12 +88,60 @@ public class TicketDAOTest {
         when(mockResultSet.getTimestamp(4)).thenReturn(new Timestamp(123123));
         when(mockResultSet.getTimestamp(5)).thenReturn(new Timestamp(456456));
         when(mockResultSet.getString(6)).thenReturn("CAR");
-        
+
         TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
 
         Ticket result = ticketDAO.getTicket("ABC123");
 
         assertEquals("ABC123", result.getVehicleRegNumber());
+    }
+
+    @Test
+    public void getTicket_ShouldReturnTicketAndException() throws Exception {
+        ResultSet mockResultSet = mock(ResultSet.class);
+
+        when(dataBaseConfig.getConnection()).thenThrow(new IllegalArgumentException("Unable to fetch the data"));
+
+        TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
+        Ticket result = ticketDAO.getTicket("ABC123");
+
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void updateTicket_shouldReturnTrueWhenSucceeding() throws SQLException, ClassNotFoundException {
+        when(dataBaseConfig.getConnection()).thenReturn(mockConnection);
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
+
+        Ticket ticket = new Ticket();
+        ticket.setPrice(55.5);
+        ticket.setOutTime(new Date());
+        ticket.setId(60);
+
+        TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
+        boolean result = ticketDAO.updateTicket(ticket);
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void updateTicket_shouldReturnFalseWithWrongConfiguration() throws SQLException, ClassNotFoundException {
+        when(dataBaseConfig.getConnection()).thenReturn(mockConnection);
+
+        TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
+        boolean result = ticketDAO.updateTicket(ticket);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void getNbTicket_verifyTotalTimeParked() {
+        Ticket ticket = new Ticket();
+        ticket.setTotalTimesParked(5);
+
+        TicketDAO ticketDAO = new TicketDAO(null);
+
+        assertEquals(5, ticketDAO.getNbTicket(ticket));
     }
 
 
