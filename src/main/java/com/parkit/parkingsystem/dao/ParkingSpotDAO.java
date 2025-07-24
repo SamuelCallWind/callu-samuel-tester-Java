@@ -33,6 +33,7 @@ public class ParkingSpotDAO {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 result = rs.getInt(1);
+                System.out.println("The next available spot is placed at the number: " + result); // TODELETE AFTERWARD
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
@@ -51,12 +52,34 @@ public class ParkingSpotDAO {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
             ps.setBoolean(1, parkingSpot.isAvailable());
-            ps.setInt(2, parkingSpot.getId());
+            ps.setString(2, parkingSpot.getRegistrationNumber());
+            ps.setInt(3, parkingSpot.getId());
             int updateRowCount = ps.executeUpdate();
             dataBaseConfig.closePreparedStatement(ps);
             return (updateRowCount == 1);
         }catch (Exception ex){
             logger.error("Error updating parking info",ex);
+            return false;
+        }finally {
+            dataBaseConfig.closeConnection(con);
+        }
+    }
+
+    public boolean getParkingIsAvailable(int ParkingNumber){
+        // get the information on a given parking spot
+        Connection con = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_PARKING_SPOT);
+            ps.setInt(1, ParkingNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("AVAILABLE");
+            }
+            dataBaseConfig.closePreparedStatement(ps);
+            return true;
+        }catch (Exception ex){
+            logger.error("Error getting parking info",ex);
             return false;
         }finally {
             dataBaseConfig.closeConnection(con);

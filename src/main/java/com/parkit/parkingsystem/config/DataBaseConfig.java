@@ -13,7 +13,7 @@ public class DataBaseConfig {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/prod","root","rootroot");
+                "jdbc:mysql://localhost:3306/prod?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC","parkingroot","rootroot");
     }
 
     // Notion de timezone à ajouter pour éviter un pb sur le lien vers la DB

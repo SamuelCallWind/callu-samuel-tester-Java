@@ -6,6 +6,7 @@ public class ParkingSpot {
     private int number;
     private ParkingType parkingType;
     private boolean isAvailable;
+    private String vehicleRegNumber;
 
     public ParkingSpot(int number, ParkingType parkingType, boolean isAvailable) {
         this.number = number;
@@ -31,6 +32,12 @@ public class ParkingSpot {
 
     public boolean isAvailable() {
         return isAvailable;
+    }
+    public String getRegistrationNumber() {
+        return vehicleRegNumber;
+    }
+    public void setRegistrationNumber(String vehicleRegNumber) {
+        this.vehicleRegNumber = vehicleRegNumber;
     }
 
     public void setAvailable(boolean available) {
