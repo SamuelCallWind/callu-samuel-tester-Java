@@ -20,18 +20,11 @@ public class ParkingService {
     private InputReaderUtil inputReaderUtil;
     private ParkingSpotDAO parkingSpotDAO;
     private TicketDAO ticketDAO;
-    private int testVehicle = 0;
 
     public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO){
         this.inputReaderUtil = inputReaderUtil;
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
-    }
-    public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO, int testVehicle){
-        this.inputReaderUtil = inputReaderUtil;
-        this.parkingSpotDAO = parkingSpotDAO;
-        this.ticketDAO = ticketDAO;
-        this.testVehicle = testVehicle;
     }
 
     public int processIncomingVehicle() {
@@ -97,11 +90,7 @@ public class ParkingService {
         System.out.println("1 CAR");
         System.out.println("2 BIKE");
         int input;
-        if (testVehicle != 0) {
-            input = testVehicle;
-        } else {
-             input = inputReaderUtil.readSelection();
-        }
+        input = inputReaderUtil.readSelection();
         switch(input){
             case 1: {
                 return ParkingType.CAR;

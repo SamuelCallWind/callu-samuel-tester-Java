@@ -84,8 +84,9 @@ public class ParkingServiceTest {
     @Test
     public void processIncomingVehicleTest() {
         when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
 
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO, 1);
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         assertEquals(0, parkingService.processIncomingVehicle());
     }
