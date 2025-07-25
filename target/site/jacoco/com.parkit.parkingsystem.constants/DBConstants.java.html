@@ -3,7 +3,7 @@
 <span class="nc" id="L3">public class DBConstants {</span>
 
     public static final String GET_NEXT_PARKING_SPOT = &quot;select min(PARKING_NUMBER) from parking where AVAILABLE = 1 and TYPE = ?&quot;;
-    public static final String UPDATE_PARKING_SPOT = &quot;update parking set available = ?, VEHICLE_REG_NUMBER = ? where PARKING_NUMBER = ?&quot;;
+    public static final String UPDATE_PARKING_SPOT = &quot;update parking set available = ?, VEHICLE_REG_NUMBER = ?, IN_TIME = ? where PARKING_NUMBER = ?&quot;;
     public static final String GET_PARKING_SPOT = &quot;select AVAILABLE from parking where PARKING_NUMBER = ?&quot;;
 
 
