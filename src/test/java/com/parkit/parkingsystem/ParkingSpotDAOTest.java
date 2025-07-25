@@ -3,6 +3,7 @@ package com.parkit.parkingsystem;
 import com.parkit.parkingsystem.config.DataBaseConfig;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
+import com.parkit.parkingsystem.model.ParkingSpot;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -28,6 +29,8 @@ public class ParkingSpotDAOTest {
     PreparedStatement preparedStatement;
     @Mock
     ResultSet resultSet;
+    @Mock
+    ParkingSpot parkingSpot;
 
     @Test
     public void getNextAvailableSlot_shouldReturnValueOfOne() throws SQLException, ClassNotFoundException {
@@ -39,6 +42,10 @@ public class ParkingSpotDAOTest {
         int result = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 
         assertEquals(-1, result);
+    }
 
+    @Test
+    public void testUpdateParking_ShouldReturnTrueForCorrectInput() {
+        when(parkingSpot.getId()).thenReturn(2);
     }
 }

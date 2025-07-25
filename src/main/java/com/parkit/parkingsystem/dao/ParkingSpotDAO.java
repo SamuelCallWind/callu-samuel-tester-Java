@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 public class ParkingSpotDAO {
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
@@ -53,7 +54,8 @@ public class ParkingSpotDAO {
             PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
             ps.setBoolean(1, parkingSpot.isAvailable());
             ps.setString(2, parkingSpot.getRegistrationNumber());
-            ps.setInt(3, parkingSpot.getId());
+            ps.setTimestamp(3, new Timestamp(parkingSpot.getInTime().getTime()));
+            ps.setInt(4, parkingSpot.getId());
             int updateRowCount = ps.executeUpdate();
             dataBaseConfig.closePreparedStatement(ps);
             return (updateRowCount == 1);

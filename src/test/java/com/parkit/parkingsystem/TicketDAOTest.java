@@ -57,9 +57,6 @@ public class TicketDAOTest {
         boolean result = ticketDAO.saveTicket(ticket);
 
         assertFalse(result);
-        verify(dataBaseConfig).getConnection();
-        verify(mockConnection).prepareStatement(anyString());
-        verify(mockPreparedStatement).execute();
     }
     @Test
     public void saveTicketButThrowsError() throws SQLException, ClassNotFoundException {

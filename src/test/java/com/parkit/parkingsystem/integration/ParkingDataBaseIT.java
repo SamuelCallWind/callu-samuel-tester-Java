@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -72,8 +73,6 @@ public class ParkingDataBaseIT {
         Thread.sleep(3000);
         //Now making the vehicle exit
         parkingService.processExitingVehicle();
-
-
         // Get the data from the database to make sure it is populated correctly
         Ticket result = ticketDAO.getTicket("ABCDEF2");
 
@@ -81,8 +80,6 @@ public class ParkingDataBaseIT {
         assertNotNull(result.getOutTime());
         assertNotNull(result.getInTime());
         assertEquals("ABCDEF2", result.getVehicleRegNumber());
-
-
     }
 
 }
