@@ -49,7 +49,7 @@ public class ParkingService {
 <span class="fc" id="L49">                ticket.setTotalTimesParked(ticket.getTotalTimesParked() + 1);</span>
 <span class="fc" id="L50">                ticket.setParkingType(parkingSpot.getParkingType());</span>
 <span class="fc" id="L51">                ticketDAO.saveTicket(ticket);</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">                System.out.println((ticketDAO.getNbTicket(ticket) == 1) ? &quot;Welcome to Park'It!&quot; : &quot;Welcome and happy to see you again!&quot;);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">                System.out.println((ticketDAO.getNbTicket(ticket) == 1) ? &quot;Welcome to Park'It!&quot; : &quot;Welcome and happy to see you again!&quot;);</span>
 <span class="fc" id="L53">                System.out.println(&quot;Generated Ticket and saved in DB&quot;);</span>
 <span class="fc" id="L54">                System.out.println(&quot;Please park your vehicle in spot number:&quot;+parkingSpot.getId());</span>
 <span class="fc" id="L55">                System.out.println(&quot;Recorded in-time for vehicle number:&quot;+vehicleRegNumber+&quot; is:&quot;+inTime);</span>

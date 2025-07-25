@@ -3,6 +3,7 @@ package com.parkit.parkingsystem;
 import com.parkit.parkingsystem.config.DataBaseConfig;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.TicketDAO;
+import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,19 +73,18 @@ public class TicketDAOTest {
 
     @Test
     public void getTicket_ShouldReturnTicket_WhenRecordFound() throws Exception {
-        ResultSet mockResultSet = mock(ResultSet.class);
 
         when(dataBaseConfig.getConnection()).thenReturn(mockConnection);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
-        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockPreparedStatement.executeQuery()).thenReturn(resultSet);
 
-        when(mockResultSet.next()).thenReturn(true);
-        when(mockResultSet.getInt(1)).thenReturn(1); // ParkingSpot id
-        when(mockResultSet.getInt(2)).thenReturn(10); // Ticket ID
-        when(mockResultSet.getDouble(3)).thenReturn(12.3);
-        when(mockResultSet.getTimestamp(4)).thenReturn(new Timestamp(123123));
-        when(mockResultSet.getTimestamp(5)).thenReturn(new Timestamp(456456));
-        when(mockResultSet.getString(6)).thenReturn("CAR");
+        when(resultSet.next()).thenReturn(true);
+        when(resultSet.getInt(1)).thenReturn(1); // ParkingSpot id
+        when(resultSet.getInt(2)).thenReturn(10); // Ticket ID
+        when(resultSet.getDouble(3)).thenReturn(12.3);
+        when(resultSet.getTimestamp(4)).thenReturn(new Timestamp(123123));
+        when(resultSet.getTimestamp(5)).thenReturn(new Timestamp(456456));
+        when(resultSet.getString(6)).thenReturn("CAR");
 
         TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
 
@@ -132,13 +132,19 @@ public class TicketDAOTest {
     }
 
     @Test
-    public void getNbTicket_verifyTotalTimeParked() {
+    public void getNbTicketTest_verifyTotalTimeParked() throws SQLException, ClassNotFoundException {
+        when(dataBaseConfig.getConnection()).thenReturn(mockConnection);
+        when(mockConnection.prepareStatement(any())).thenReturn(mockPreparedStatement);
+        when(mockPreparedStatement.executeQuery()).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(true);
+        when(resultSet.getInt(1)).thenReturn(1);
+
         Ticket ticket = new Ticket();
-        ticket.setTotalTimesParked(5);
+        ticket.setVehicleRegNumber("ABCDEFGHIJKLMNOP1");
 
-        TicketDAO ticketDAO = new TicketDAO(null);
+        TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
 
-        assertEquals(5, ticketDAO.getNbTicket(ticket));
+        assertEquals(1, ticketDAO.getNbTicket(ticket));
     }
 
 
