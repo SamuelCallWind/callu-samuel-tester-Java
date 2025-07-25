@@ -99,6 +99,14 @@ public class ParkingServiceTest {
 
         verify(parkingSpotDAO, never()).updateParking(any());
     }
+    @Test
+    public void processExitingVehicleTestUpdate() {
+        when(ticketDAO.updateTicket(any())).thenReturn(true);
+
+        parkingService.processExitingVehicle();
+
+        verify(parkingSpotDAO).updateParking(any());
+    }
 
     @Test
     public void testGetNextParkingNumberIfAvailable() {

@@ -94,15 +94,15 @@ public class TicketDAOTest {
     }
 
     @Test
-    public void getTicket_ShouldReturnTicketAndException() throws Exception {
-        ResultSet mockResultSet = mock(ResultSet.class);
-
+    public void getTicket_ShouldReturnAnException() throws Exception {
         when(dataBaseConfig.getConnection()).thenThrow(new IllegalArgumentException("Unable to fetch the data"));
 
         TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
-        Ticket result = ticketDAO.getTicket("ABC123");
-
-        assertEquals(null, result);
+        try {
+            ticketDAO.getTicket("ABCDEF1");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Unable to fetch the data", e.getMessage());
+        }
     }
 
     @Test

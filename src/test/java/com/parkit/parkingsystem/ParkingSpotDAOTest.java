@@ -3,6 +3,7 @@ package com.parkit.parkingsystem;
 import com.parkit.parkingsystem.config.DataBaseConfig;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
+import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,8 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -64,5 +64,16 @@ public class ParkingSpotDAOTest {
         boolean result = parkingSpotDAO.updateParking(parkingSpot);
 
         assertTrue(result);
+    }
+
+    @Test
+    public void getParkingIsAvailable_ShouldReturnTrueIfSpotIsAvailable() {
+        ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO(new DataBaseTestConfig());
+        assertTrue(parkingSpotDAO.getParkingIsAvailable(6));
+    }
+    @Test
+    public void getParkingIsAvailable_ShouldReturnFalseIfSpotIsUnavailable() {
+        ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO(new DataBaseTestConfig());
+        assertFalse(parkingSpotDAO.getParkingIsAvailable(2));
     }
 }
