@@ -37,7 +37,6 @@ public class ParkingService {
     public int processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
-            System.out.println("The next available spot is the: " + parkingSpot.getId());
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
                 parkingSpot.setAvailable(false);
@@ -46,7 +45,7 @@ public class ParkingService {
 
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
+                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME, TYPE)
                 //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
@@ -54,8 +53,9 @@ public class ParkingService {
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 ticket.setTotalTimesParked(ticket.getTotalTimesParked() + 1);
+                ticket.setParkingType(parkingSpot.getParkingType());
                 ticketDAO.saveTicket(ticket);
-                System.out.println((ticketDAO.getNbTicket(ticket) == 2) ? "Welcome to Park'It!" : "Welcome and happy to see you again!");
+                System.out.println((ticketDAO.getNbTicket(ticket) == 1) ? "Welcome to Park'It!" : "Welcome and happy to see you again!");
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
@@ -122,8 +122,10 @@ public class ParkingService {
             Date outTime = new Date();
             ticket.setOutTime(outTime);
             if (ticketDAO.getNbTicket(ticket) > 1) {
+                System.out.println("The discount will be applied");
                 fareCalculatorService.calculateFare(ticket, true);
             } else {
+                System.out.println("The discount will NOT be applied");
                 fareCalculatorService.calculateFare(ticket);
             }
             if(ticketDAO.updateTicket(ticket)) {
