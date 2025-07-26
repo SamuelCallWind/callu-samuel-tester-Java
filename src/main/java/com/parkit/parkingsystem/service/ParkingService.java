@@ -49,7 +49,8 @@ public class ParkingService {
                 ticket.setTotalTimesParked(ticket.getTotalTimesParked() + 1);
                 ticket.setParkingType(parkingSpot.getParkingType());
                 ticketDAO.saveTicket(ticket);
-                System.out.println((ticketDAO.getNbTicket(ticket) == 1) ? "Welcome to Park'It!" : "Welcome and happy to see you again!");
+                int nbTickets = (ticketDAO.getNbTicket(ticket));
+                System.out.println((nbTickets < 1) ? "Welcome to Park'It!" : "Welcome and happy to see you again!");
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);

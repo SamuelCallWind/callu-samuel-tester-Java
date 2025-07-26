@@ -76,7 +76,7 @@ public class ParkingDataBaseIT {
         // Get the data from the database to make sure it is populated correctly
         Ticket result = ticketDAO.getTicket("ABCDEF2");
 
-        //TODO: check that the fare generated and out time are populated correctly in the database
+
         assertNotNull(result.getOutTime());
         assertNotNull(result.getInTime());
         assertEquals("ABCDEF2", result.getVehicleRegNumber());
