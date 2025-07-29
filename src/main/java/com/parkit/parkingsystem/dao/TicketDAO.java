@@ -60,6 +60,8 @@ public class TicketDAO {
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(4));
                 ticket.setOutTime(rs.getTimestamp(5));
+                ticket.setTotalTimesParked(getNbTicket(vehicleRegNumber));
+                return ticket;
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
@@ -67,8 +69,8 @@ public class TicketDAO {
             logger.error("Error fetching next available slot",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
-            return ticket;
         }
+        return ticket;
     }
 
     public boolean updateTicket(Ticket ticket) {
@@ -89,12 +91,12 @@ public class TicketDAO {
         return false;
     }
 
-    public int getNbTicket(Ticket ticket) {
+    public int getNbTicket(String vehicleRegNumber) {
         Connection con = null;
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_TIMES_PARKED);
-            ps.setString(1, ticket.getVehicleRegNumber());
+            ps.setString(1, vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
@@ -104,7 +106,23 @@ public class TicketDAO {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return ticket.getTotalTimesParked();
+        return 0;
+    }
+
+    public void updateTimesParked(String vehicleRegNumber) {
+        Connection con = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TIMES_PARKED);
+            ps.setString(1, vehicleRegNumber);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            dataBaseConfig.closeConnection(con);
+        }
     }
 
 }

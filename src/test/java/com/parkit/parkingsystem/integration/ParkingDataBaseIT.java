@@ -15,9 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +33,8 @@ public class ParkingDataBaseIT {
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
+    @Mock
+    TicketDAO ticketDAO1 = new TicketDAO(new DataBaseTestConfig());
 
     @BeforeAll
     public static void setUp() throws Exception{
@@ -82,4 +87,24 @@ public class ParkingDataBaseIT {
         assertEquals("ABCDEF2", result.getVehicleRegNumber());
     }
 
+    @Test
+    public void testParkingLotExit_recurringUser() throws Exception {
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF2");
+
+        // Since the program is removing every single entry for tickets at the launch, I'll use the incoming vehicle method
+        // To create the entry :
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle();
+        parkingService.processIncomingVehicle();
+        parkingService.processIncomingVehicle();
+        //Now making the vehicle exit
+
+        Thread.sleep(1000);
+        parkingService.processExitingVehicle();
+        // Get the data from the database to make sure it is populated correctly
+        Ticket result = ticketDAO.getTicket("ABCDEF2");
+
+
+        assertEquals(3, result.getTotalTimesParked());
+    }
 }

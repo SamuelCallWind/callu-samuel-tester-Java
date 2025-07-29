@@ -49,7 +49,8 @@ public class ParkingService {
                 ticket.setTotalTimesParked(ticket.getTotalTimesParked() + 1);
                 ticket.setParkingType(parkingSpot.getParkingType());
                 ticketDAO.saveTicket(ticket);
-                int nbTickets = (ticketDAO.getNbTicket(ticket));
+                ticketDAO.updateTimesParked(ticket.getVehicleRegNumber());
+                int nbTickets = (ticketDAO.getNbTicket(vehicleRegNumber));
                 System.out.println((nbTickets < 1) ? "Welcome to Park'It!" : "Welcome and happy to see you again!");
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
@@ -112,7 +113,7 @@ public class ParkingService {
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
-            if (ticketDAO.getNbTicket(ticket) > 1) {
+            if (ticketDAO.getNbTicket(ticket.getVehicleRegNumber()) > 1) {
                 System.out.println("The discount will be applied");
                 fareCalculatorService.calculateFare(ticket, true);
             } else {
@@ -120,9 +121,8 @@ public class ParkingService {
                 fareCalculatorService.calculateFare(ticket);
             }
             if(ticketDAO.updateTicket(ticket)) {
-                ParkingSpot parkingSpot = ticket.getParkingSpot();
-                parkingSpot.setAvailable(true);
-                parkingSpotDAO.updateParking(parkingSpot);
+                //TODO : REMOVE THE data for the vehicle found at once / Change the price on the ticket in the database as well
+
                 System.out.println("Please pay the parking fare:" + ticket.getPrice());
                 System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
             }else{

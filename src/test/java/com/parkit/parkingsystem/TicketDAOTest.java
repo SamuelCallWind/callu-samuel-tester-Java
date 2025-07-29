@@ -144,7 +144,7 @@ public class TicketDAOTest {
 
         TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
 
-        assertEquals(1, ticketDAO.getNbTicket(ticket));
+        assertEquals(1, ticketDAO.getNbTicket(ticket.getVehicleRegNumber()));
     }
 
 

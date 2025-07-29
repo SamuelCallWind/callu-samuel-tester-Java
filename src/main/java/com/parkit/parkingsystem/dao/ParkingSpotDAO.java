@@ -88,4 +88,8 @@ public class ParkingSpotDAO {
         }
     }
 
+    public boolean updatePriceInDatabase() {
+        return true;
+    }
+
 }

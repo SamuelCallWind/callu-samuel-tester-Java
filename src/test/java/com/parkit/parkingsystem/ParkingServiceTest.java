@@ -57,30 +57,6 @@ public class ParkingServiceTest {
         }
     }
 
-    /*
-    @Test
-    public void processExitingVehicleTest(){
-        parkingService.processExitingVehicle();
-        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
-    }
-
-
-     */
-
-
-    /*
-    @Test
-    public void greetFrequentUser() {
-        Date inTime = new Date();
-        inTime.setTime( System.currentTimeMillis() - (120 * 60 * 1000));
-        Date outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
-
-        parkingService.processIncomingVehicle();
-    }
-
-     */
-
     @Test
     public void processIncomingVehicleTest() {
         when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);

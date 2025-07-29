@@ -14,10 +14,13 @@ public class DataBasePrepareService {
             connection = dataBaseTestConfig.getConnection();
 
             //set parking entries to available
-            connection.prepareStatement("update parking set available = true, VEHICLE_REG_NUMBER = ''").execute();
+            connection.prepareStatement("update parking set available = true, VEHICLE_REG_NUMBER = '', IN_TIME = null").execute();
 
             //clear ticket entries;
             connection.prepareStatement("truncate table ticket").execute();
+
+            //Clear user_stats of the database
+            connection.prepareStatement("truncate table user_stats").execute();
 
         }catch(Exception e){
             e.printStackTrace();
