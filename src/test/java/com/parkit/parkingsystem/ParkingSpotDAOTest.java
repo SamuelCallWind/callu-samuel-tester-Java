@@ -19,6 +19,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,13 +68,27 @@ public class ParkingSpotDAOTest {
     }
 
     @Test
-    public void getParkingIsAvailable_ShouldReturnTrueIfSpotIsAvailable() {
-        ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO(new DataBaseTestConfig());
-        assertTrue(parkingSpotDAO.getParkingIsAvailable(6));
+    public void getParkingIsAvailable_ShouldReturnTrueIfSpotIsAvailable() throws SQLException, ClassNotFoundException {
+        when(databaseConfig.getConnection()).thenReturn(mockConnection);
+        when(mockConnection.prepareStatement(any())).thenReturn(preparedStatement);
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(true);
+        when(resultSet.getBoolean(any())).thenReturn(true);
+
+        ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO(databaseConfig);
+
+        assertTrue(parkingSpotDAO.getParkingIsAvailable(96));
     }
     @Test
-    public void getParkingIsAvailable_ShouldReturnFalseIfSpotIsUnavailable() {
-        ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO(new DataBaseTestConfig());
+    public void getParkingIsAvailable_ShouldReturnFalseIfSpotIsUnavailable() throws SQLException, ClassNotFoundException {
+        when(databaseConfig.getConnection()).thenReturn(mockConnection);
+        when(mockConnection.prepareStatement(any())).thenReturn(preparedStatement);
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(true);
+        when(resultSet.getBoolean(any())).thenReturn(false);
+
+        ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO(databaseConfig);
+
         assertFalse(parkingSpotDAO.getParkingIsAvailable(2));
     }
 }

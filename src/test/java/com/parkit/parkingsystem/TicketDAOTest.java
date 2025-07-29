@@ -55,6 +55,13 @@ public class TicketDAOTest {
 
         TicketDAO ticketDAO = new TicketDAO(dataBaseConfig);
 
+        ticket.setTotalTimesParked(1);
+        ticket.setVehicleRegNumber("abcd");
+        ticket.setParkingType(ParkingType.CAR);
+        ticket.setInTime(new Date());
+        ticket.setParkingSpot(new ParkingSpot(2, ParkingType.CAR, false));
+        ticket.setId(2);
+
         boolean result = ticketDAO.saveTicket(ticket);
 
         assertFalse(result);

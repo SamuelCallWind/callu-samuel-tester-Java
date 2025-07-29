@@ -68,7 +68,6 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingLotExit() throws Exception {
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF2");
 
         // Since the program is removing every single entry for tickets at the launch, I'll use the incoming vehicle method
         // To create the entry :
@@ -79,18 +78,16 @@ public class ParkingDataBaseIT {
         //Now making the vehicle exit
         parkingService.processExitingVehicle();
         // Get the data from the database to make sure it is populated correctly
-        Ticket result = ticketDAO.getTicket("ABCDEF2");
+        Ticket result = ticketDAO.getTicket("ABCDEF");
 
 
         assertNotNull(result.getOutTime());
         assertNotNull(result.getInTime());
-        assertEquals("ABCDEF2", result.getVehicleRegNumber());
+        assertEquals("ABCDEF", result.getVehicleRegNumber());
     }
 
     @Test
     public void testParkingLotExit_recurringUser() throws Exception {
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF2");
-
         // Since the program is removing every single entry for tickets at the launch, I'll use the incoming vehicle method
         // To create the entry :
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -102,7 +99,7 @@ public class ParkingDataBaseIT {
         Thread.sleep(1000);
         parkingService.processExitingVehicle();
         // Get the data from the database to make sure it is populated correctly
-        Ticket result = ticketDAO.getTicket("ABCDEF2");
+        Ticket result = ticketDAO.getTicket("ABCDEF");
 
 
         assertEquals(3, result.getTotalTimesParked());

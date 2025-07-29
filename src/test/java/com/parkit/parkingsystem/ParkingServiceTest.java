@@ -78,10 +78,11 @@ public class ParkingServiceTest {
     @Test
     public void processExitingVehicleTestUpdate() {
         when(ticketDAO.updateTicket(any())).thenReturn(true);
+        when(parkingSpotDAO.removeParking(any())).thenReturn(true);
 
         parkingService.processExitingVehicle();
 
-        verify(parkingSpotDAO).updateParking(any());
+        verify(parkingSpotDAO).removeParking(any());
     }
 
     @Test

@@ -7,6 +7,7 @@ public class DBConstants {
     public static final String GET_PARKING_SPOT = "select AVAILABLE from parking where PARKING_NUMBER = ?";
     public static final String GET_TIMES_PARKED = "select TOTAL_TIMES_PARKED from user_stats where VEHICLE_REG_NUMBER = ?";
     public static final String UPDATE_TIMES_PARKED = "INSERT INTO user_stats (VEHICLE_REG_NUMBER, TOTAL_TIMES_PARKED) VALUES (?, 1) ON DUPLICATE KEY UPDATE TOTAL_TIMES_PARKED = TOTAL_TIMES_PARKED + 1";
+    public static final String REMOVE_CAR_FROM_PARKING = "update parking set VEHICLE_REG_NUMBER = '', IN_TIME = null, OUT_TIME = null, AVAILABLE = 1 where VEHICLE_REG_NUMBER = ?";
 
 
 

@@ -92,4 +92,20 @@ public class ParkingSpotDAO {
         return true;
     }
 
+    public boolean removeParking(String vehicleRegNumber) {
+        Connection con = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.REMOVE_CAR_FROM_PARKING);
+            ps.setString(1, vehicleRegNumber);
+            ps.execute();
+            dataBaseConfig.closePreparedStatement(ps);
+            return true;
+        }catch (Exception ex){
+            logger.error("Error deleting the car from the parking space",ex);
+            return false;
+        }finally {
+            dataBaseConfig.closeConnection(con);
+        }
+    }
 }

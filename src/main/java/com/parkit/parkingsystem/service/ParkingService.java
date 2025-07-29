@@ -77,7 +77,7 @@ public class ParkingService {
             if(parkingNumber > 0 ){
                 parkingSpot = new ParkingSpot(parkingNumber,parkingType, true, new Date());
             }else{
-                throw new Exception("Error fetching parking number from DB. Parking slots might be full");
+                logger.error(new Exception("Error fetching parking number from DB. Parking slots might be full"));
             }
         }catch(IllegalArgumentException ie){
             logger.error("Error parsing user input for type of vehicle", ie);
@@ -122,7 +122,7 @@ public class ParkingService {
             }
             if(ticketDAO.updateTicket(ticket)) {
                 //TODO : REMOVE THE data for the vehicle found at once / Change the price on the ticket in the database as well
-
+                parkingSpotDAO.removeParking(ticket.getVehicleRegNumber());
                 System.out.println("Please pay the parking fare:" + ticket.getPrice());
                 System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
             }else{
