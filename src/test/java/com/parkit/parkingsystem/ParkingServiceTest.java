@@ -57,6 +57,25 @@ public class ParkingServiceTest {
         }
     }
 
+
+    @Test
+    public void getVehicleType_forBike() {
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+        ParkingType result = parkingService.getVehicleType();
+        assertEquals(ParkingType.BIKE, result);
+    }
+    @Test
+    public void getVehicleType_forIncorrectNumbers() {
+        when(inputReaderUtil.readSelection()).thenReturn(8);
+        String result = "";
+        try {
+            parkingService.getVehicleType();
+        } catch (IllegalArgumentException e) {
+            result = e.getMessage();
+        }
+        assertEquals("Entered input is invalid", result);
+    }
+
     @Test
     public void processIncomingVehicleTest() {
         when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);
@@ -65,6 +84,16 @@ public class ParkingServiceTest {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         assertEquals(0, parkingService.processIncomingVehicle());
+    }
+    @Test
+    public void processIncomingVehicle_shouldReturnException() {
+        when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.updateParking(any())).thenThrow(new RuntimeException("Unable to process the vehicle"));
+
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        assertEquals(-1, parkingService.processIncomingVehicle());
     }
 
     @Test
@@ -102,6 +131,15 @@ public class ParkingServiceTest {
         ParkingService parkingServiceSpy = Mockito.spy(new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO));
         doReturn(ParkingType.CAR).when(parkingServiceSpy).getVehicleType();
         when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(-1);
+
+        ParkingSpot spot = parkingServiceSpy.getNextParkingNumberIfAvailable();
+
+        assertNull(spot);
+    }
+    @Test
+    public void testGetNextParkingNumber_shouldReturnException() {
+        ParkingService parkingServiceSpy = Mockito.spy(new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO));
+        doThrow(new IllegalArgumentException("Wrong input")).when(parkingServiceSpy).getVehicleType();
 
         ParkingSpot spot = parkingServiceSpy.getNextParkingNumberIfAvailable();
 

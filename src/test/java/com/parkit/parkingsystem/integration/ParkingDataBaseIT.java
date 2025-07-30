@@ -74,7 +74,7 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
 
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         //Now making the vehicle exit
         parkingService.processExitingVehicle();
         // Get the data from the database to make sure it is populated correctly
