@@ -47,3 +47,11 @@ The app has unit tests and integration tests written. More of these need to be a
 To run the tests from maven, go to the folder that contains the pom.xml file and execute the below command.
 
 `mvn test`
+
+You can also run:
+`mvn verify`
+
+This runs all tests and generates a JaCoCo coverage report. After running this command, you can open the file:
+target/site/jacoco/index.html
+
+in your browser to view the coverage report.
